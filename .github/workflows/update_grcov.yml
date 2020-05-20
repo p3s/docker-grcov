@@ -1,0 +1,28 @@
+name: Update grcov
+
+on:
+  schedule:
+  - cron: '30 22 * * *'
+
+jobs:
+  update:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - id: latest
+      uses: pozetroninc/github-action-get-latest-release@v0.3.0
+      with:
+        repository: mozilla/grcov
+    - name: Remove leading `v` in release
+      run: echo ::set-env name=GRCOV_VERSION::$(echo ${{ steps.latest.outputs.release }} | sed 's/v//g')
+    - name: Update dotenv file
+      run: sed -i "s/.*GRCOV_VERSION.*/GRCOV_VERSION=$GRCOV_VERSION/" .env
+    - uses: peter-evans/create-pull-request@v2
+      name: Create Pull Request
+      with:
+        token: ${{ secrets.REPO_SCOPED_TOKEN }}
+        commit-message: Bumps grcov to ${{ env.GRCOV_VERSION }}
+        title: Bump grcov to ${{ env.GRCOV_VERSION }}
+        branch: actions/dotenv/grcov-${{ env.GRCOV_VERSION }}
