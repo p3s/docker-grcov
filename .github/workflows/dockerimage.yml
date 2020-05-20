@@ -16,3 +16,8 @@ jobs:
 
     - name: Log into registry
       run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+    - name: Publish
+      uses: falti/dotenv-action@v0.2
+      run: |
+        docker tag piotrmaks/grcov:${{ steps.dotenv.outputs.grcov_version }} piotrmaks/grcov:latest
