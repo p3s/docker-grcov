@@ -1,0 +1,28 @@
+name: Publish Docker image
+
+
+on:
+  release:
+    types: [published]
+
+jobs:
+
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker-compose build
+
+    - name: Log into registry
+      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+    - uses: falti/dotenv-action@v0.2
+      id: dotenv
+    - name: Publish
+      run: |
+        docker tag piotrmaks/grcov:${{ steps.dotenv.outputs.grcov_version }} piotrmaks/grcov:latest
+        docker push piotrmaks/grcov:${{ steps.dotenv.outputs.grcov_version }}
+        docker push piotrmaks/grcov:latest
