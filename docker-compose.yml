@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  grcov:
+    env_file: .env
+    build:
+      context: .
+      args:
+      - GRCOV_VERSION
+    image: piotrmaks/grcov:$GRCOV_VERSION
