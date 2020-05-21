@@ -15,7 +15,7 @@ RUN tar xf v${GRCOV_VERSION}.tar.gz \
     grep '^/' | \
     xargs -I % cp --parents % deps
 
-FROM scratch
+FROM busybox
 
 ARG GRCOV_VERSION
 
