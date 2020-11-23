@@ -16,7 +16,7 @@ jobs:
         repository: mozilla/grcov
     - name: Update dotenv file
       run: echo ${{ steps.latest.outputs.release }} | sed 's/v/GRCOV_VERSION=/g' > .env
-    - uses: peter-evans/create-pull-request@v2
+    - uses: peter-evans/create-pull-request@v3
       name: Create Pull Request
       with:
         token: ${{ secrets.REPO_SCOPED_TOKEN }}
