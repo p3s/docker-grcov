@@ -14,10 +14,8 @@ jobs:
       uses: pozetroninc/github-action-get-latest-release@v0.3.0
       with:
         repository: mozilla/grcov
-    - name: Remove leading `v` in release
-      run: echo ::set-env name=GRCOV_VERSION::$(echo ${{ steps.latest.outputs.release }} | sed 's/v//g')
     - name: Update dotenv file
-      run: sed -i "s/.*GRCOV_VERSION.*/GRCOV_VERSION=$GRCOV_VERSION/" .env
+      run: echo ${{ steps.latest.outputs.release }} | sed 's/v/GRCOV_VERSION=/g' > .env
     - uses: peter-evans/create-pull-request@v2
       name: Create Pull Request
       with:
