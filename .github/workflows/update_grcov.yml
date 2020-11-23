@@ -1,7 +1,8 @@
 name: Update grcov
 
 on:
-  push:
+  schedule:
+  - cron: '30 22 * * *'
 
 jobs:
   update:
