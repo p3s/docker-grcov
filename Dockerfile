@@ -1,4 +1,4 @@
-FROM rust:1.58.1-buster
+FROM rust:1.59.0-buster
 
 ARG GRCOV_VERSION
 
